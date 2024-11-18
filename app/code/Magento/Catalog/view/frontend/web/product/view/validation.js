@@ -13,39 +13,38 @@ define([
     $.widget('mage.validation', $.mage.validation, {
         options: {
             radioCheckboxClosest: 'ul, ol'
-        },
-
-        /**
-         * @param {*} error
-         * @param {HTMLElement} element
-         */
-        errorPlacement: function (error, element) {
-            var messageBox,
-                dataValidate;
-
-            if ($(element).hasClass('datetime-picker')) {
-                element = $(element).parent();
-
-                if (element.parent().find('.mage-error').length) {
+            /**
+             * @param {*} error
+             * @param {HTMLElement} element
+             */
+            errorPlacement: function (error, element) {
+                var messageBox,
+                    dataValidate;
+    
+                if ($(element).hasClass('datetime-picker')) {
+                    element = $(element).parent();
+    
+                    if (element.parent().find('.mage-error').length) {
+                        return;
+                    }
+                }
+    
+                if (element.attr('data-errors-message-box')) {
+                    messageBox = $(element.attr('data-errors-message-box'));
+                    messageBox.html(error);
+    
                     return;
                 }
-            }
-
-            if (element.attr('data-errors-message-box')) {
-                messageBox = $(element.attr('data-errors-message-box'));
-                messageBox.html(error);
-
-                return;
-            }
-
-            dataValidate = element.attr('data-validate');
-
-            if (dataValidate && dataValidate.indexOf('validate-one-checkbox-required-by-name') > 0) {
-                error.appendTo('#links-advice-container');
-            } else if (element.is(':radio, :checkbox')) {
-                element.closest(this.radioCheckboxClosest).after(error);
-            } else {
-                element.after(error);
+    
+                dataValidate = element.attr('data-validate');
+    
+                if (dataValidate && dataValidate.indexOf('validate-one-checkbox-required-by-name') > 0) {
+                    error.appendTo('#links-advice-container');
+                } else if (element.is(':radio, :checkbox')) {
+                    element.closest(this.radioCheckboxClosest).after(error);
+                } else {
+                    element.after(error);
+                }
             }
         },
 
